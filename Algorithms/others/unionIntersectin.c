@@ -1,10 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h> // to use malloc
 
-
-
-
-
 int main() {
 
 	srand(time(NULL)); //prevents from generating same number for rand function
