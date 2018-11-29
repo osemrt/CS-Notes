@@ -1,14 +1,14 @@
 Table of Contents
 ======
-- [What is discrete mathematics](https://github.com/osemrt/CS-Notes/new/master/discrete_mathematics/textbook#what-is-discrete-mathematics)
+- [What is discrete mathematics](https://github.com/osemrt/CS-Notes/blob/master/discrete_mathematics/textbook/00_logic_and_proofs.md#what-is-discrete-mathematics)
 
-- [1.1 Propositional Logic](https://github.com/osemrt/CS-Notes/new/master/discrete_mathematics/textbook#11-propositional-logic)
+- [1.1 Propositional Logic](https://github.com/osemrt/CS-Notes/blob/master/discrete_mathematics/textbook/00_logic_and_proofs.md#11-propositional-logic)
 
-- [1.2 Applications of Propositional Logic](https://github.com/osemrt/CS-Notes/new/master/discrete_mathematics/textbook#12-applications-of-propositional-logic)
+- [1.2 Applications of Propositional Logic](https://github.com/osemrt/CS-Notes/blob/master/discrete_mathematics/textbook/00_logic_and_proofs.md#12-applications-of-propositional-logic)
 
-- [1.3 Applications of Propositional Logic](https://github.com/osemrt/CS-Notes/new/master/discrete_mathematics/textbook#13-propositional-equivalences)
+- [1.3 Applications of Propositional Logic](https://github.com/osemrt/CS-Notes/blob/master/discrete_mathematics/textbook/00_logic_and_proofs.md#13-propositional-equivalences)
 
-- [1.4 Applications of Propositional Logic](https://github.com/osemrt/CS-Notes/new/master/discrete_mathematics/textbook#14-predicates-and-quanti%EF%AC%81ers)
+- [1.4 Applications of Propositional Logic](https://github.com/osemrt/CS-Notes/blob/master/discrete_mathematics/textbook/00_logic_and_proofs.md#14-predicates-and-quanti%EF%AC%81ers)
 
 ### What is discrete mathematics? 
 
