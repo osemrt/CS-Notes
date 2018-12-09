@@ -28,12 +28,12 @@ MAIN PROC FAR
 	 MOV DS, AX
      
 	 ;Kullanıcıdan dizinin eleman sayısını alıyoruz.------------------------------------------------------- |
-	 MOV AX, OFFSET MSG1      																		       ;|
-	 CALL PUT_STR            																		       ;|
-	 CALL GETN               																		       ;|
-	 MOV N, AX																							   ;|
-	 MOV LAST, AX																						   ;|
-	 DEC LAST																							   ;|
+	 MOV AX, OFFSET MSG1      						     			       ;|
+	 CALL PUT_STR            									       ;|
+	 CALL GETN               									       ;|
+	 MOV N, AX											       ;|
+	 MOV LAST, AX											       ;|
+	 DEC LAST										               ;|
 	 ;-------------------------------------------------------------------------------------------------------
 	 
 	  
