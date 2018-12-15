@@ -11,11 +11,11 @@ myds SEGMENT PARA 'data'
 	 CR    EQU 13
 	 LF    EQU 10
 	 
-	 MSG1  DB CR,        'N: ', 0
-	 MSG2  DB CR,LF,     'Dizinin elemanlarını giriniz..', 0
+	 MSG1  DB CR,        'Dizini eleman sayisini giriniz: ', 0
+	 MSG2  DB CR,LF,     'Dizinin elemanlarini giriniz!', 0
 	 MSG3  DB CR,LF,     'Eleman: ', 0
-	 MSG4  DB CR,LF,     'Sıralanmış dizinin elemanları...', 0
-	 HATA  DB CR,LF,     'sayi girmediniz yeniden giriniz : ', 0	 
+	 MSG4  DB CR,LF,     'Siralanmis dizinin elemanlari...', 0
+	 HATA  DB CR,LF,     'Lutfen verilen aralikta bir sayi giriniz! [-128,127] : ', 0	 
 myds ENDS
 
 mycs SEGMENT PARA 'code'
@@ -27,101 +27,84 @@ MAIN PROC FAR
 	 MOV AX, myds
 	 MOV DS, AX
      
-	 ;Kullanıcıdan dizinin eleman sayısını alıyoruz.------------------------------------------------------- |
-	 MOV AX, OFFSET MSG1      						     			       ;|
-	 CALL PUT_STR            									       ;|
-	 CALL GETN               									       ;|
-	 MOV N, AX											       ;|
-	 MOV LAST, AX											       ;|
-	 DEC LAST										               ;|
-	 ;-------------------------------------------------------------------------------------------------------
-	 
-	  
+	 CALL ELEMAN_SAYISI 
 	 CALL ELEMANLARI_AL	 	 
-	 MOV DI, LAST
-	 MOV SI, FIRST
 	 CALL QUICKSORT
 	 CALL ELEMANLARI_YAZ	 
 	 RETF
 MAIN ENDP
 
 
-QUICKSORT      PROC NEAR			   
-			   CMP DI, SI
-			   JBE L3
-			   
-			   CALL PARTITION
-			   
-			   MOV SI, FIRST
-			   MOV DI, BX
-			   DEC DI			   
-			   CALL QUICKSORT
-			   
-			   MOV DI, LAST
-			   MOV SI, BX
-			   INC SI
-			   CALL QUICKSORT
-			   ;MOV DI, LAST			   
-			L3:
+ELEMAN_SAYISI  PROC NEAR
+			   MOV AX, OFFSET MSG1      																		 
+			   CALL PUT_STR            																		     
+			   CALL GETN               																		     
+			   MOV N, AX																						
+			   MOV LAST, AX																						 
+			   DEC LAST ; last=n-1	 
 			   RET
+ELEMAN_SAYISI  ENDP
+
+
+QUICKSORT      PROC NEAR 		
+		       MOV SI, FIRST
+		       CMP SI, LAST
+     	       JGE QS_END
+			   
+			   ; partition
+		       MOV BX, FIRST ; BX(i)
+		       MOV DI, LAST	 ; DI(j)		   
+			   
+        QS_L1: CMP SI, DI
+		       JGE QS_L5
+			   
+        QS_L2: MOV AL, dizi[BX] ; AL(pivot)
+		       CMP dizi[SI], AL ; A[i]<=AL(pi)			   
+		       JG QS_L3
+		       
+		       INC SI
+		       JMP QS_L2
+		       
+        QS_L3: CMP dizi[DI], AL
+		       JLE QS_L4
+		       DEC DI
+			   
+		       JMP QS_L3
+			   
+        QS_L4: CMP SI, DI
+		       JGE QS_L1
+			   
+		       MOV AL, dizi[SI]
+		       XCHG AL, dizi[DI]
+		       MOV dizi[SI], AL
+		       JMP QS_L1
+			   
+			   
+        QS_L5: MOV AL, dizi[BX]
+		       XCHG AL, dizi[DI]
+		       MOV dizi[BX], AL
+			   
+			    ; partition
+				
+		       PUSH DI
+		       PUSH LAST
+		       MOV LAST, DI
+		       DEC LAST			   
+		       CALL QUICKSORT
+		       POP LAST
+		       POP DI
+		       MOV FIRST, DI
+		       INC FIRST
+		       CALL QUICKSORT		
+       QS_END: RET	              				    	
 QUICKSORT      ENDP
 
 
-PARTITION      PROC NEAR
-			   MOV DL, dizi[DI]
-			   
-			   MOV FIRST, SI
-			   MOV LAST, DI
-			   
-			   MOV AX, DI
-			   SUB AX, SI
-			   MOV CX, AX
-			   
-			   MOV BX, SI
-			   
-		   L5: CMP DL, dizi[SI]
-			   JLE L4
-			   
-			   MOV AL, dizi[BX]
-			   MOV AH, dizi[SI]
-			   MOV dizi[BX], AH
-			   MOV dizi[SI], AL
-			   
-			   INC BX
-		   L4: INC SI
-			   LOOP L5
-			   
-			   MOV AL, dizi[DI]
-			   MOV AH, dizi[BX]
-			   MOV dizi[DI], AH
-			   MOV dizi[BX], AL		
-			   RET
-PARTITION      ENDP
-
-
-ELEMANLARI_YAZ PROC NEAR
-			   MOV CX, N
-			   XOR SI, SI
-			   
-			   MOV AX, OFFSET MSG4
-			   CALL PUT_STR
-			   MOV AL, 10
-			   CALL PUTC
-			   MOV AL, 13
-			   CALL PUTC
-			   
-		   L2: XOR AH, AH
-			   MOV AL, dizi[SI]
-			   CALL PUTN
-			   MOV AL, 31
-			   CALL PUTC
-			   INC SI
-			   LOOP L2
-			   RET
-ELEMANLARI_YAZ ENDP
-
-
 ELEMANLARI_AL PROC NEAR
+			  PUSH CX
+			  PUSH SI
+			  PUSH AX
+			  
 			  MOV CX, N
 			  XOR SI, SI
 			  
@@ -136,8 +119,54 @@ ELEMANLARI_AL PROC NEAR
 			  MOV dizi[SI], AL			  
 			  INC SI
 			  LOOP L1
+			  
+			  
+			  POP AX
+			  POP SI
+			  POP CX
 			  RET
 ELEMANLARI_AL ENDP
+
+
+ELEMANLARI_YAZ PROC NEAR
+			   PUSH CX
+			   PUSH SI
+			   PUSH AX
+			   
+			   MOV CX, N
+			   XOR SI, SI
+			   
+			   MOV AX, OFFSET MSG4
+			   CALL PUT_STR
+			   			   
+			   MOV AL, 10
+			   CALL PUTC
+			   MOV AL, 13
+			   CALL PUTC
+			   
+		   L2: XOR AX, AX
+			   CMP dizi[SI], 0 ; 
+			   JL MINUS
+			   MOV AL, dizi[SI]
+			   CALL PUTN
+			   MOV AL, ' ' 
+			   CALL PUTC
+			   JMP SON
+	    MINUS: MOV AL, '-'
+			   CALL PUTC
+			   MOV AL, dizi[SI]
+			   NEG AL
+			   CALL PUTN
+			   MOV AL, ' '
+			   CALL PUTC			   
+          SON: INC SI
+			   LOOP L2
+			   
+			   POP CX
+			   POP SI
+			   POP AX			   
+			   RET
+ELEMANLARI_YAZ ENDP
 
 
 GETC 		  PROC NEAR 
@@ -204,11 +233,20 @@ CTRL_NUM:	  CMP AL,'0'
 ERROR:	      MOV AX, OFFSET HATA
 			  CALL PUT_STR
 			  JMP GETN_START
-FIN_READ:	  MOV AX,CX
-			  CMP DX,1
+FIN_READ:     MOV AX, CX
+		      CMP AH, 0
+		      JNE ERROR
+		      CMP DX, 1
+		      JE label_getn1
+		      CMP AL, 128
+		      JA ERROR
+		      JMP label_getn2
+label_getn1:  CMP AL, 127
+		      JA ERROR
+label_getn2:  CMP DX, 1
 			  JE FIN_GETN
 			  NEG AX
-FIN_GETN:	  POP BX
+FIN_GETN:     POP DX
 			  POP CX
 			  POP DX
 			  RET
