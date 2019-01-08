@@ -1,5 +1,5 @@
 ; sequential three members in the array are a triangle. 
-; Find the max area in another function by using heron's formula 
+; Write a function to find the area of each triangle by using heron's formula.
 
 EXTRN FINDAREA : FAR
 myss SEGMENT STACK PARA 'stack'
