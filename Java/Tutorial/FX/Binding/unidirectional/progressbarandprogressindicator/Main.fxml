@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane minHeight="372.0" minWidth="373.0" prefHeight="434.0" prefWidth="375.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="progressbarandprogressindicator.MainController">
+   <children>
+      <Button layoutX="41.0" layoutY="328.0" mnemonicParsing="false" onAction="#butonClicked1" prefHeight="44.0" prefWidth="138.0" text="+">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Button>
+      <ProgressBar fx:id="pb" layoutX="41.0" layoutY="261.0" prefHeight="44.0" prefWidth="294.0" progress="0.0" />
+      <ProgressIndicator fx:id="pi" layoutX="93.0" layoutY="87.0" prefHeight="155.0" prefWidth="190.0" progress="0.0" />
+      <Button layoutX="195.0" layoutY="328.0" mnemonicParsing="false" onAction="#butonClicked2" prefHeight="44.0" prefWidth="138.0" text="-">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Button>
+      <Label fx:id="label" layoutX="160.0" layoutY="31.0" text="Label">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
